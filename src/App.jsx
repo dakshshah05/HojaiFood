@@ -532,12 +532,12 @@ function Contact() {
         <a href="tel:+919999999999" className="contact-card reveal" id="contact-phone">
           <Phone size={28} />
           <h3>Call Us</h3>
-          <p>+91 99999 99999</p>
+          <p>+91 70028 05266</p>
         </a>
-        <a href="mailto:info@hojaifood.com" className="contact-card reveal" id="contact-email">
+        <a href="mailto:hojaifoodproduct@gmail.com" className="contact-card reveal" id="contact-email">
           <Mail size={28} />
           <h3>Email Us</h3>
-          <p>info@hojaifood.com</p>
+          <p>hojaifoodproduct@gmail.com</p>
         </a>
         <div className="contact-card reveal" id="contact-address">
           <MapPin size={28} />
