@@ -4,7 +4,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SceneContainer from './components/Scene';
 import {
   ArrowRight, Leaf, Shield, Zap, TrendingUp,
-  Wheat, Droplets, Sun, PackageCheck, Award, Eye
+  Wheat, Droplets, Sun, PackageCheck, Award, Eye,
+  Snowflake, FileCheck, MapPin, Truck
 } from 'lucide-react';
 import './App.css';
 
@@ -14,19 +15,20 @@ gsap.registerPlugin(ScrollTrigger);
    DATA
 —————————————————————————— */
 const visionItems = [
-  { icon: Zap, title: 'Precision Processing', desc: 'State-of-the-art milling technology that preserves nutritional integrity while delivering consistent quality in every batch.' },
-  { icon: Shield, title: 'Quality Assurance', desc: 'End-to-end quality control from farm gate to finished product, certified by international food safety standards.' },
-  { icon: Leaf, title: 'Sustainable Sourcing', desc: 'Direct partnerships with local farmers ensuring fair trade practices and environmentally responsible agriculture.' },
+  { icon: Zap, title: 'Precision Milling', desc: 'State-of-the-art milling technology that preserves nutritional integrity while delivering consistent quality in every batch of wheat we process.' },
+  { icon: Shield, title: 'Quality Assurance', desc: 'We select only plump, golden-amber grains with high hardness — ensuring superior protein content, higher water absorption, and softer rotis.' },
+  { icon: FileCheck, title: 'FCI Procurement', desc: 'We procure premium wheat directly from the Food Corporation of India through an official government tender process, guaranteeing certified quality.' },
+  { icon: Snowflake, title: 'Cold Storage & Supply Chain', desc: 'Our company-owned cold storage facility ensures seamless supply chain management, preserving freshness from procurement to delivery.' },
 ];
 
 const products = [
-  { title: 'Premium Rice Flour', desc: 'Ultra-fine ground rice flour perfect for traditional and modern culinary applications.', tag: 'Best Seller', icon: Wheat },
-  { title: 'Organic Mustard Oil', desc: "Cold-pressed, pure mustard oil sourced from the finest seeds of Assam's fertile lands.", tag: 'Organic', icon: Droplets },
-  { title: 'Multi-Grain Atta', desc: 'A power blend of 7 grains, stone-ground for maximum fiber and nutrition retention.', tag: 'Health+', icon: Sun },
-  { title: 'Golden Turmeric Powder', desc: 'High-curcumin turmeric, naturally dried and finely milled for vibrant color and potency.', tag: 'Pure', icon: PackageCheck },
+  { title: 'Sharbati Wheat Atta', desc: 'Milled from premium Sharbati wheat sourced from Madhya Pradesh — known for its golden hue, natural sweetness, and soft rotis.', tag: 'Flagship', icon: Wheat },
+  { title: 'Lokwan Wheat Atta', desc: 'High-protein Lokwan variety from Maharashtra, ideal for chapatis with excellent elasticity and nutritional value.', tag: 'Premium', icon: Sun },
+  { title: 'GW 322 Wheat Flour', desc: 'Superior GW 322 variety from Uttar Pradesh, prized for its high water absorption and consistent texture in every batch.', tag: 'Select Grade', icon: PackageCheck },
+  { title: 'Fortified Atta Blend', desc: 'Our signature multi-nutrient fortified wheat flour — enriched with iron, folic acid, and vitamins for wholesome daily nutrition.', tag: 'Health+', icon: Droplets },
 ];
 
-const marqueeText = 'Premium Quality • Farm Fresh • Ethically Sourced • Since 2009 • Hojai, Assam • Trusted by 10K+ Clients • Zero Additives • ';
+const marqueeText = 'Premium Quality • FCI Certified • Since 2003 • Hojai, Assam • One of the Biggest in Assam • Sharbati • Lokwan • GW 322 • Cold Storage Facility • ';
 
 /* ——————————————————————————
    HOOKS
@@ -191,7 +193,7 @@ function Navbar() {
 }
 
 function Hero() {
-  const stat1 = useCounter(15, '+');
+  const stat1 = useCounter(22, '+');
   const stat2 = useCounter(50, '+');
   const stat3 = useCounter(10, 'K+');
   const stat4 = useCounter(100, '%');
@@ -200,14 +202,14 @@ function Hero() {
     <section id="hero" className="section hero" aria-label="Hero banner">
       <div className="hero-content">
         <div className="section-label hero-anim">
-          <Leaf size={14} /> From Farm to Table, Excellence in Every Grain
+          <Wheat size={14} /> One of the Biggest Food Manufacturers in Assam
         </div>
         <h1 className="hero-title hero-anim">
-          Nourishing Lives <br />
-          with <span className="highlight">Pure Goodness</span>
+          Select Quality Wheat, <br />
+          <span className="highlight">Milled to Perfection</span>
         </h1>
         <p className="hero-desc hero-anim">
-          Hojai Food Product Pvt. Ltd. brings you premium, ethically sourced food products — processed with cutting-edge technology and rooted in tradition.
+          Hojai Food Product Pvt. Ltd. procures premium wheat from Madhya Pradesh, Uttar Pradesh & more through FCI government tenders — and mills it into the finest atta with cutting-edge technology.
         </p>
         <div className="hero-actions hero-anim">
           <button className="btn-primary" id="explore-products-btn">
@@ -247,7 +249,7 @@ function Vision() {
         </div>
         <h2 className="section-title">Our Vision</h2>
         <p className="section-subtitle" style={{ margin: '0 auto' }}>
-          We believe in building a food ecosystem that is transparent, sustainable, and deeply connected to the communities we serve.
+          To be the most trusted food manufacturer in Northeast India — delivering uncompromising quality through FCI-certified procurement and precision milling.
         </p>
       </header>
       <div className="vision-grid">
@@ -311,23 +313,23 @@ function Products() {
 }
 
 function Established() {
-  const statYear = useCounter(2009, '', 2.5);
-  const statFarmers = useCounter(200, '+');
-  const statYears = useCounter(15, '+');
+  const statYear = useCounter(2003, '', 2.5);
+  const statStates = useCounter(5, '+');
+  const statYears = useCounter(22, '+');
 
   return (
     <section id="established" className="section established" aria-label="Company history">
       <div className="established-grid">
         <div className="established-text reveal">
           <div className="section-label">
-            <Award size={14} /> Our Heritage
+            <Award size={14} /> Established 23rd December 2003
           </div>
           <h2>
-            Tradition Meets <br />
-            <span className="highlight">Innovation</span>
+            Two Decades of <br />
+            <span className="highlight">Trusted Quality</span>
           </h2>
           <p>
-            Since its inception, Hojai Food Product Pvt. Ltd. has been committed to delivering the finest agro-based food products from the heart of Assam to tables across the nation. Our state-of-the-art milling facilities blend ancestral knowledge with modern precision.
+            Founded on 23rd December 2003, Hojai Food Product Pvt. Ltd. has grown into one of the biggest food manufacturing companies in Assam. We procure select-quality wheat from Madhya Pradesh, Uttar Pradesh, and other prime regions through FCI government tenders — choosing only plump, golden-amber grains like Sharbati, Lokwan, and GW 322 with high hardness for superior protein content and softer rotis. Our company also owns a dedicated cold storage facility, essential for seamless supply chain management.
           </p>
           <div className="established-stats">
             <div className="established-stat">
@@ -335,8 +337,8 @@ function Established() {
               <p>Founded</p>
             </div>
             <div className="established-stat">
-              <h3 ref={statFarmers.ref} className="counter">{statFarmers.display}</h3>
-              <p>Farmers</p>
+              <h3 ref={statStates.ref} className="counter">{statStates.display}</h3>
+              <p>Source States</p>
             </div>
             <div className="established-stat">
               <h3 ref={statYears.ref} className="counter">{statYears.display}</h3>
@@ -346,8 +348,8 @@ function Established() {
         </div>
         <div className="established-visual reveal">
           <div className="timeline-badge">
-            <div className="year">2009</div>
-            <div className="label">EST. Hojai, Assam</div>
+            <div className="year">2003</div>
+            <div className="label">EST. 23 DEC • Hojai, Assam</div>
           </div>
         </div>
       </div>
