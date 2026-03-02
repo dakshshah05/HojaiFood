@@ -903,6 +903,231 @@ img { max-width: 100%; display: block; }
 .footer-links a:hover { color: var(--primary-light); }
 
 /* ========================= */
+/*  WHEAT QUALITY SECTION    */
+/* ========================= */
+.wheat-quality {
+  background: var(--bg-surface);
+}
+
+.wheat-quality-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 80px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.wheat-features {
+  list-style: none;
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.wheat-features li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1rem;
+  color: var(--text-body);
+  padding: 12px 16px;
+  background: var(--bg-white);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-smooth);
+}
+
+.wheat-features li:hover {
+  border-color: var(--primary-light);
+  transform: translateX(8px);
+  box-shadow: var(--shadow-md);
+}
+
+.wheat-check {
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.wheat-varieties {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.variety-badge {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 28px 32px;
+  background: var(--bg-white);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  transition: all var(--transition-smooth);
+  cursor: default;
+}
+
+.variety-badge svg {
+  color: var(--primary);
+}
+
+.variety-badge:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  border-color: var(--primary-light);
+}
+
+/* ========================= */
+/*  FLAGSHIP CARD            */
+/* ========================= */
+.flagship-card-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.flagship-card {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 48px;
+  background: linear-gradient(135deg, #e8f5e9, #f1f8e9, #fffde7);
+  border: 2px solid var(--primary-light);
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.flagship-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(22,163,74,0.08) 0%, transparent 60%);
+}
+
+.flagship-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl), 0 0 60px var(--primary-glow);
+}
+
+.flagship-icon {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: white;
+  border-radius: var(--radius-lg);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.flagship-content {
+  position: relative;
+  z-index: 1;
+}
+
+.flagship-content h3 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.flagship-content p {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+/* ========================= */
+/*  ROLLER GRID (5 cols)     */
+/* ========================= */
+.roller-grid {
+  grid-template-columns: repeat(5, 1fr) !important;
+  gap: 20px !important;
+}
+
+/* ========================= */
+/*  MANUFACTURING SECTION    */
+/* ========================= */
+.manufacturing {
+  background: var(--bg-surface);
+}
+
+.mills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.mill-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-smooth);
+}
+
+.mill-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
+}
+
+.mill-card-header {
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: white;
+}
+
+.mill-card-header h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+}
+
+.chakki-header {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+}
+
+.roller-header {
+  background: linear-gradient(135deg, #0d4f2e, var(--primary-dark));
+}
+
+.mill-card-body {
+  padding: 32px;
+}
+
+.mill-card-body p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.mill-product-tag {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--primary);
+  padding: 8px 16px;
+  background: rgba(22, 163, 74, 0.08);
+  border-radius: var(--radius-sm);
+  display: inline-block;
+}
+
+/* ========================= */
 /*  COUNTERS (animated)      */
 /* ========================= */
 .counter {
@@ -913,9 +1138,14 @@ img { max-width: 100%; display: block; }
 /* ========================= */
 /*  RESPONSIVE               */
 /* ========================= */
+@media (max-width: 1200px) {
+  .roller-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+
 @media (max-width: 1024px) {
   .products-grid { grid-template-columns: repeat(2, 1fr); }
   .vision-grid { grid-template-columns: repeat(2, 1fr); }
+  .roller-grid { grid-template-columns: repeat(2, 1fr) !important; }
 }
 
 @media (max-width: 768px) {
@@ -924,7 +1154,11 @@ img { max-width: 100%; display: block; }
   .navbar-links { display: none; }
   .vision-grid { grid-template-columns: 1fr; }
   .products-grid { grid-template-columns: 1fr; }
+  .roller-grid { grid-template-columns: 1fr !important; }
   .established-grid { grid-template-columns: 1fr; gap: 40px; }
+  .wheat-quality-grid { grid-template-columns: 1fr; gap: 40px; }
+  .mills-grid { grid-template-columns: 1fr; }
+  .flagship-card { flex-direction: column; text-align: center; padding: 32px; }
   .hero-stats { gap: 24px; flex-wrap: wrap; }
   .established-stats { flex-wrap: wrap; gap: 24px; }
   .footer { padding: 40px 24px 32px; flex-direction: column; text-align: center; }
