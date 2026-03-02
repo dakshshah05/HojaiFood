@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hojaifood.vercel.app/sitemap.xml
+
+# Hojai Food Product Pvt. Ltd.
+# https://hojaifood.vercel.app

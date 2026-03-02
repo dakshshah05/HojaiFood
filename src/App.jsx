@@ -6,11 +6,20 @@ import {
   ArrowRight, Leaf, Shield, Zap, Eye,
   Wheat, Droplets, Sun, PackageCheck, Award,
   Snowflake, FileCheck, Factory, Cog, Truck,
-  CheckCircle, Star, Gem, Layers
+  CheckCircle, Star, Gem, Layers, X,
+  Phone, Mail, MapPin, Clock, ChevronDown
 } from 'lucide-react';
 import './App.css';
 
 gsap.registerPlugin(ScrollTrigger);
+
+/* ——————————————————————————
+   HELPER: Smooth scroll to section
+—————————————————————————— */
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
 /* ——————————————————————————
    DATA
@@ -24,15 +33,61 @@ const visionItems = [
 ];
 
 const chakkiProducts = [
-  { title: 'Maa Bhog Chakki Atta', desc: 'Our flagship product — stone-ground using traditional Chakki Mill to retain natural nutrients, fiber, aroma, and taste. Ideal for soft, nutritious rotis.', tag: 'Flagship', icon: Wheat },
+  {
+    title: 'Maa Bhog Chakki Atta',
+    desc: 'Our flagship product — stone-ground using traditional Chakki Mill to retain natural nutrients, fiber, aroma, and taste. Ideal for soft, nutritious rotis.',
+    longDesc: 'Maa Bhog Chakki Atta is produced using the traditional stone-grinding (Chakki) process, which preserves the wheat\'s natural bran, germ, fiber, and nutrients. Unlike roller-milled flour, Chakki Atta retains the wheat\'s original aroma and taste, resulting in softer, more nutritious rotis and chapatis. Made from carefully selected Sharbati, Lokwan, and GW 322 wheat procured through FCI tenders from Madhya Pradesh and Uttar Pradesh.',
+    tag: 'Flagship',
+    icon: Wheat,
+    features: ['Stone-ground for natural nutrition', 'Retains fiber, aroma & taste', 'Softer rotis every time', 'Premium FCI-procured wheat'],
+  },
 ];
 
 const rollerProducts = [
-  { title: 'Maida', desc: 'Finely refined wheat flour with smooth texture and excellent binding properties — perfect for bread, cakes, biscuits, and pastries.', tag: 'Bakery Grade', icon: Layers },
-  { title: 'Suji (Semolina)', desc: 'Coarse wheat product valued for its granular texture — ideal for upma, halwa, pasta, and traditional Indian sweets.', tag: 'Versatile', icon: Sun },
-  { title: 'Superfine Atta', desc: 'Finely ground wheat flour with a smooth texture, ideal for making soft, high-quality rotis and chapatis every time.', tag: 'Premium', icon: Star },
-  { title: 'Special Atta', desc: 'Premium-quality wheat flour specially processed to ensure better taste, softness, and enhanced nutritional value.', tag: 'Special', icon: Gem },
-  { title: 'Wheat Bran', desc: 'The nutrient-rich outer layer of wheat grain, high in dietary fiber — used for animal feed and health-focused food products.', tag: 'Fiber Rich', icon: Leaf },
+  {
+    title: 'Maida',
+    desc: 'Finely refined wheat flour with smooth texture and excellent binding properties — perfect for bread, cakes, biscuits, and pastries.',
+    longDesc: 'Maida is a finely milled and refined wheat flour produced at our Maa Durga Roller Flour Mill. It has a smooth, silky texture and excellent binding properties, making it ideal for bakery products such as bread, cakes, biscuits, pastries, and naan. Produced under strict quality control for purity and consistency.',
+    tag: 'Bakery Grade', icon: Layers,
+    features: ['Smooth, silky texture', 'Excellent binding properties', 'Ideal for bakery products', 'Strict quality control'],
+  },
+  {
+    title: 'Suji (Semolina)',
+    desc: 'Coarse wheat product valued for its granular texture — ideal for upma, halwa, pasta, and traditional Indian sweets.',
+    longDesc: 'Suji (Semolina) is a coarse, granular wheat product manufactured at the Maa Durga Roller Flour Mill. It is widely used for preparing upma, halwa, idli, pasta, and traditional Indian sweets. Valued for its nutritional content, granular texture, and versatile culinary applications.',
+    tag: 'Versatile', icon: Sun,
+    features: ['Granular texture', 'High nutritional value', 'Versatile cooking uses', 'Uniform grain size'],
+  },
+  {
+    title: 'Superfine Atta',
+    desc: 'Finely ground wheat flour with a smooth texture, ideal for making soft, high-quality rotis and chapatis every time.',
+    longDesc: 'Superfine Atta is a finely ground wheat flour produced using advanced roller milling technology. Its smooth texture ensures soft, high-quality rotis and chapatis with every use. Manufactured under the Maa Brand with consistent quality standards.',
+    tag: 'Premium', icon: Star,
+    features: ['Extra fine grind', 'Smooth texture', 'Soft rotis guaranteed', 'Consistent quality'],
+  },
+  {
+    title: 'Special Atta',
+    desc: 'Premium-quality wheat flour specially processed to ensure better taste, softness, and enhanced nutritional value.',
+    longDesc: 'Special Atta is a premium-quality wheat flour that undergoes specialized processing at our Maa Durga Roller Flour Mill. This extra processing ensures enhanced taste, superior softness, and better nutritional value compared to standard atta. It is the preferred choice for health-conscious consumers.',
+    tag: 'Special', icon: Gem,
+    features: ['Specialized processing', 'Enhanced nutrition', 'Superior softness', 'Premium wheat selection'],
+  },
+  {
+    title: 'Wheat Bran',
+    desc: 'The nutrient-rich outer layer of wheat grain, high in dietary fiber — used for animal feed and health-focused food products.',
+    longDesc: 'Wheat Bran is the nutrient-rich outer layer of the wheat grain, separated during the milling process. It is exceptionally high in dietary fiber and is used both as animal feed and as an ingredient in health-focused food products. A valuable by-product of our precision milling process.',
+    tag: 'Fiber Rich', icon: Leaf,
+    features: ['High dietary fiber', 'Animal feed grade', 'Health food ingredient', 'Natural by-product'],
+  },
+];
+
+const faqData = [
+  { q: 'What is Hojai Food Product Pvt. Ltd.?', a: 'Hojai Food Product Pvt. Ltd. is one of the biggest food manufacturing companies in Assam, established on 23rd December 2003. We specialize in producing premium wheat-based products including Maa Bhog Chakki Atta and Maa Brand roller mill products.' },
+  { q: 'Where does the company source its wheat?', a: 'We procure premium quality wheat from major wheat-producing states such as Madhya Pradesh and Uttar Pradesh through official tenders from the Food Corporation of India (FCI). No farmers are involved in the direct purchasing process.' },
+  { q: 'What wheat varieties does the company use?', a: 'We select top varieties including Sharbati, Lokwan, and GW 322 — known for plump, golden-amber grains with high hardness, superior protein content, and higher water absorption that produces softer rotis.' },
+  { q: 'What products does the company manufacture?', a: 'Our flagship product is Maa Bhog Chakki Atta (traditional stone-ground). Through our Maa Durga Roller Flour Mill, we also produce Maida, Suji (Semolina), Superfine Atta, Special Atta, and Wheat Bran under the Maa Brand.' },
+  { q: 'Does the company have cold storage facilities?', a: 'Yes, the company owns a dedicated cold storage facility that plays a crucial role in supply chain management — preserving raw materials and finished products, reducing wastage, and ensuring timely delivery.' },
+  { q: 'Where is the company located?', a: 'Hojai Food Product Pvt. Ltd. is based in Hojai, Assam, India.' },
 ];
 
 const marqueeText = 'Maa Bhog Chakki Atta • FCI Certified • Since 2003 • Hojai, Assam • One of the Biggest in Assam • Sharbati • Lokwan • GW 322 • Maa Durga Roller Flour Mill • Cold Storage Facility • ';
@@ -50,16 +105,9 @@ function useCounter(end, suffix = '', duration = 2) {
     if (!el) return;
     const obj = { val: 0 };
     const st = ScrollTrigger.create({
-      trigger: el,
-      start: 'top 90%',
-      once: true,
+      trigger: el, start: 'top 90%', once: true,
       onEnter: () => {
-        gsap.to(obj, {
-          val: end,
-          duration,
-          ease: 'power2.out',
-          onUpdate: () => setValue(Math.round(obj.val)),
-        });
+        gsap.to(obj, { val: end, duration, ease: 'power2.out', onUpdate: () => setValue(Math.round(obj.val)) });
       },
     });
     return () => st.kill();
@@ -70,7 +118,6 @@ function useCounter(end, suffix = '', duration = 2) {
 
 function useTilt(strength = 15) {
   const ref = useRef(null);
-
   const handleMouseMove = useCallback((e) => {
     const el = ref.current;
     if (!el) return;
@@ -79,13 +126,11 @@ function useTilt(strength = 15) {
     const y = (e.clientY - rect.top) / rect.height - 0.5;
     gsap.to(el, { rotateX: -y * strength, rotateY: x * strength, duration: 0.4, ease: 'power2.out' });
   }, [strength]);
-
   const handleMouseLeave = useCallback(() => {
     const el = ref.current;
     if (!el) return;
     gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.6, ease: 'power2.out' });
   }, []);
-
   return { ref, onMouseMove: handleMouseMove, onMouseLeave: handleMouseLeave };
 }
 
@@ -97,9 +142,7 @@ function CursorGlow() {
   const glowRef = useRef(null);
   useEffect(() => {
     const move = (e) => {
-      if (glowRef.current) {
-        gsap.to(glowRef.current, { x: e.clientX, y: e.clientY, duration: 0.6, ease: 'power2.out' });
-      }
+      if (glowRef.current) gsap.to(glowRef.current, { x: e.clientX, y: e.clientY, duration: 0.6, ease: 'power2.out' });
     };
     window.addEventListener('mousemove', move);
     return () => window.removeEventListener('mousemove', move);
@@ -107,18 +150,12 @@ function CursorGlow() {
   return <div ref={glowRef} className="cursor-glow" />;
 }
 
-function GrainOverlay() {
-  return <div className="grain-overlay" />;
-}
+function GrainOverlay() { return <div className="grain-overlay" />; }
 
 function Particles() {
   const particles = Array.from({ length: 20 }, (_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    size: 3 + Math.random() * 5,
-    duration: 8 + Math.random() * 12,
-    delay: Math.random() * 10,
-    opacity: 0.1 + Math.random() * 0.25,
+    id: i, left: `${Math.random() * 100}%`, size: 3 + Math.random() * 5,
+    duration: 8 + Math.random() * 12, delay: Math.random() * 10, opacity: 0.1 + Math.random() * 0.25,
   }));
   return (
     <div className="particles-container">
@@ -133,11 +170,83 @@ function MarqueeBanner() {
   return (
     <div className="marquee-banner" aria-hidden="true">
       <div className="marquee-track">
-        {[...Array(4)].map((_, i) => (
-          <span key={i}>{marqueeText}</span>
-        ))}
+        {[...Array(4)].map((_, i) => <span key={i}>{marqueeText}</span>)}
       </div>
     </div>
+  );
+}
+
+/* ——————————————————————————
+   PRODUCT DETAIL MODAL
+—————————————————————————— */
+function ProductModal({ product, onClose }) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handleEsc);
+    return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', handleEsc); };
+  }, [onClose]);
+
+  return (
+    <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label={`Details for ${product.title}`}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose} aria-label="Close dialog"><X size={24} /></button>
+        <div className="modal-header">
+          <div className="modal-icon"><product.icon size={40} /></div>
+          <div>
+            <h3>{product.title}</h3>
+            <span className="product-card-tag">{product.tag}</span>
+          </div>
+        </div>
+        <p className="modal-desc">{product.longDesc}</p>
+        {product.features && (
+          <ul className="modal-features">
+            {product.features.map((f, i) => (
+              <li key={i}><CheckCircle size={16} className="wheat-check" /><span>{f}</span></li>
+            ))}
+          </ul>
+        )}
+        <button className="btn-primary modal-cta" onClick={() => { onClose(); scrollTo('contact'); }}>
+          Enquire Now <ArrowRight size={18} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ——————————————————————————
+   FAQ ACCORDION
+—————————————————————————— */
+function FaqItem({ faq, isOpen, onClick }) {
+  return (
+    <div className={`faq-item ${isOpen ? 'open' : ''}`}>
+      <button className="faq-question" onClick={onClick} aria-expanded={isOpen}>
+        <span>{faq.q}</span>
+        <ChevronDown size={20} className={`faq-chevron ${isOpen ? 'rotated' : ''}`} />
+      </button>
+      <div className="faq-answer" style={{ maxHeight: isOpen ? '300px' : '0' }}>
+        <p>{faq.a}</p>
+      </div>
+    </div>
+  );
+}
+
+function FaqSection() {
+  const [openIndex, setOpenIndex] = useState(null);
+  return (
+    <section id="faq" className="section faq-section" aria-label="Frequently asked questions">
+      <header className="products-header">
+        <div className="section-label" style={{ margin: '0 auto 16px' }}>
+          <CheckCircle size={14} /> Common Questions
+        </div>
+        <h2 className="section-title">Frequently Asked Questions</h2>
+      </header>
+      <div className="faq-list">
+        {faqData.map((faq, i) => (
+          <FaqItem key={i} faq={faq} isOpen={openIndex === i} onClick={() => setOpenIndex(openIndex === i ? null : i)} />
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -154,19 +263,20 @@ function Navbar() {
   }, []);
 
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-      <a href="#hero" className="navbar-brand" aria-label="Hojai Food Product homepage">
+    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} role="navigation">
+      <a href="#hero" className="navbar-brand" aria-label="Hojai Food Product homepage" onClick={(e) => { e.preventDefault(); scrollTo('hero'); }}>
         <Wheat size={24} />
         Hojai Food Product Pvt. Ltd.
       </a>
       <ul className="navbar-links">
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#vision">Vision</a></li>
-        <li><a href="#products">Products</a></li>
-        <li><a href="#manufacturing">Manufacturing</a></li>
-        <li><a href="#established">About</a></li>
+        {[
+          ['hero', 'Home'], ['vision', 'Vision'], ['products', 'Products'],
+          ['manufacturing', 'Manufacturing'], ['established', 'About'], ['contact', 'Contact'],
+        ].map(([id, label]) => (
+          <li key={id}><a href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollTo(id); }}>{label}</a></li>
+        ))}
       </ul>
-      <button className="navbar-cta">Get In Touch</button>
+      <button className="navbar-cta" onClick={() => scrollTo('contact')} id="nav-contact-btn">Get In Touch</button>
     </nav>
   );
 }
@@ -191,28 +301,22 @@ function Hero() {
           Hojai Food Product Pvt. Ltd. procures premium wheat from Madhya Pradesh, Uttar Pradesh & more through FCI government tenders — milling it into the finest Maa Bhog Chakki Atta and Maa Brand roller mill products.
         </p>
         <div className="hero-actions hero-anim">
-          <button className="btn-primary" id="explore-products-btn">
+          <button className="btn-primary" id="explore-products-btn" onClick={() => scrollTo('products')}>
             Explore Products <ArrowRight size={18} />
           </button>
-          <button className="btn-secondary" id="our-story-btn">Our Story</button>
+          <button className="btn-secondary" id="our-story-btn" onClick={() => scrollTo('established')}>
+            Our Story
+          </button>
         </div>
         <div className="hero-stats hero-anim">
-          <div className="hero-stat">
-            <h3 ref={stat1.ref} className="counter">{stat1.display}</h3>
-            <p>Years Legacy</p>
-          </div>
-          <div className="hero-stat">
-            <h3 ref={stat2.ref} className="counter">{stat2.display}</h3>
-            <p>Est. Year</p>
-          </div>
-          <div className="hero-stat">
-            <h3 ref={stat3.ref} className="counter">{stat3.display}</h3>
-            <p>Happy Clients</p>
-          </div>
-          <div className="hero-stat">
-            <h3 ref={stat4.ref} className="counter">{stat4.display}</h3>
-            <p>% Natural</p>
-          </div>
+          {[
+            [stat1, 'Years Legacy'], [stat2, 'Est. Year'], [stat3, 'Happy Clients'], [stat4, '% Natural'],
+          ].map(([stat, label], i) => (
+            <div className="hero-stat" key={i}>
+              <h3 ref={stat.ref} className="counter">{stat.display}</h3>
+              <p>{label}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -221,7 +325,7 @@ function Hero() {
 
 function Vision() {
   return (
-    <section id="vision" className="section vision" aria-label="Our vision">
+    <section id="vision" className="section vision" aria-label="Our vision and guiding principles">
       <header className="vision-header">
         <div className="section-label" style={{ margin: '0 auto 16px' }}>
           <Eye size={14} /> Our Guiding Principles
@@ -233,10 +337,8 @@ function Vision() {
       </header>
       <div className="vision-grid">
         {visionItems.map((item, i) => (
-          <article key={i} className="vision-card reveal">
-            <div className="vision-card-icon">
-              <item.icon size={28} />
-            </div>
+          <article key={i} className="vision-card reveal" tabIndex={0} aria-label={item.title}>
+            <div className="vision-card-icon"><item.icon size={28} /></div>
             <h3>{item.title}</h3>
             <p>{item.desc}</p>
           </article>
@@ -246,7 +348,6 @@ function Vision() {
   );
 }
 
-/* Wheat quality section */
 function WheatQuality() {
   const features = [
     'Plump, golden-amber grains with high hardness',
@@ -255,32 +356,25 @@ function WheatQuality() {
     'Free from impurities, excess moisture & broken kernels',
     'Softer, better-textured rotis every time',
   ];
-
   return (
-    <section className="section wheat-quality" aria-label="Wheat quality">
+    <section id="wheat-quality" className="section wheat-quality" aria-label="Wheat selection quality">
       <div className="wheat-quality-grid">
         <div className="wheat-quality-text reveal">
-          <div className="section-label">
-            <CheckCircle size={14} /> Our Selection Process
-          </div>
+          <div className="section-label"><CheckCircle size={14} /> Our Selection Process</div>
           <h2 className="section-title">Select Premium Wheat</h2>
           <p className="section-subtitle">
             We carefully choose only the finest wheat varieties — Sharbati, Lokwan, and GW 322 — sourced from Madhya Pradesh, Uttar Pradesh, and other prime wheat-producing states, ensuring every grain meets our exacting standards.
           </p>
           <ul className="wheat-features">
             {features.map((f, i) => (
-              <li key={i} className="reveal">
-                <CheckCircle size={16} className="wheat-check" />
-                <span>{f}</span>
-              </li>
+              <li key={i} className="reveal"><CheckCircle size={16} className="wheat-check" /><span>{f}</span></li>
             ))}
           </ul>
         </div>
         <div className="wheat-varieties reveal">
           {['Sharbati', 'Lokwan', 'GW 322'].map((v, i) => (
-            <div key={i} className="variety-badge">
-              <Wheat size={20} />
-              <span>{v}</span>
+            <div key={i} className="variety-badge" tabIndex={0} aria-label={`${v} wheat variety`}>
+              <Wheat size={20} /><span>{v}</span>
             </div>
           ))}
         </div>
@@ -289,33 +383,30 @@ function WheatQuality() {
   );
 }
 
-function ProductCard({ product, index }) {
+function ProductCard({ product, index, onViewDetails }) {
   const tilt = useTilt(12);
   return (
     <div className="tilt-card reveal" style={{ transitionDelay: `${index * 0.08}s` }}>
       <article className="product-card" ref={tilt.ref} onMouseMove={tilt.onMouseMove} onMouseLeave={tilt.onMouseLeave}>
-        <div className="product-card-img">
-          <product.icon size={48} />
-        </div>
+        <div className="product-card-img"><product.icon size={48} /></div>
         <div className="product-card-body">
           <h3>{product.title}</h3>
           <p>{product.desc}</p>
           <span className="product-card-tag">{product.tag}</span>
         </div>
-        <button className="product-card-btn" id={`product-btn-${index}`}>View Details</button>
+        <button className="product-card-btn" id={`product-btn-${index}`} onClick={() => onViewDetails(product)}>
+          View Details
+        </button>
       </article>
     </div>
   );
 }
 
-function Products() {
+function Products({ onViewDetails }) {
   return (
-    <section id="products" className="section products" aria-label="Our products">
-      {/* Flagship Chakki Product */}
+    <section id="products" className="section products" aria-label="Our products catalogue">
       <header className="products-header">
-        <div className="section-label" style={{ margin: '0 auto 16px' }}>
-          <Star size={14} /> Our Flagship Product
-        </div>
+        <div className="section-label" style={{ margin: '0 auto 16px' }}><Star size={14} /> Our Flagship Product</div>
         <h2 className="section-title">Maa Bhog Chakki Atta</h2>
         <p className="section-subtitle" style={{ margin: '0 auto' }}>
           Stone-ground using traditional Chakki Mill technology — retaining the wheat's natural nutrients, fiber, aroma, and taste for softer, more nutritious rotis.
@@ -323,10 +414,8 @@ function Products() {
       </header>
       <div className="flagship-card-wrapper">
         {chakkiProducts.map((product, i) => (
-          <div key={i} className="flagship-card reveal">
-            <div className="flagship-icon">
-              <product.icon size={56} />
-            </div>
+          <div key={i} className="flagship-card reveal" onClick={() => onViewDetails(product)} style={{ cursor: 'pointer' }} role="button" tabIndex={0} aria-label={`View details for ${product.title}`}>
+            <div className="flagship-icon"><product.icon size={56} /></div>
             <div className="flagship-content">
               <h3>{product.title}</h3>
               <p>{product.desc}</p>
@@ -336,11 +425,8 @@ function Products() {
         ))}
       </div>
 
-      {/* Roller Mill Products */}
       <header className="products-header" style={{ marginTop: '100px' }}>
-        <div className="section-label" style={{ margin: '0 auto 16px' }}>
-          <Factory size={14} /> Maa Durga Roller Flour Mill
-        </div>
+        <div className="section-label" style={{ margin: '0 auto 16px' }}><Factory size={14} /> Maa Durga Roller Flour Mill</div>
         <h2 className="section-title">Roller Mill Products</h2>
         <p className="section-subtitle" style={{ margin: '0 auto' }}>
           A complete range of high-quality wheat-based products under the trusted Maa Brand — manufactured using advanced roller milling technology.
@@ -348,7 +434,7 @@ function Products() {
       </header>
       <div className="products-grid roller-grid">
         {rollerProducts.map((product, i) => (
-          <ProductCard key={i} product={product} index={i} />
+          <ProductCard key={i} product={product} index={i} onViewDetails={onViewDetails} />
         ))}
       </div>
     </section>
@@ -357,32 +443,24 @@ function Products() {
 
 function Manufacturing() {
   return (
-    <section id="manufacturing" className="section manufacturing" aria-label="Manufacturing">
+    <section id="manufacturing" className="section manufacturing" aria-label="Manufacturing facilities">
       <header className="products-header">
-        <div className="section-label" style={{ margin: '0 auto 16px' }}>
-          <Cog size={14} /> Our Manufacturing
-        </div>
+        <div className="section-label" style={{ margin: '0 auto 16px' }}><Cog size={14} /> Our Manufacturing</div>
         <h2 className="section-title">Two Mills, One Standard</h2>
         <p className="section-subtitle" style={{ margin: '0 auto' }}>
           Combining traditional stone-grinding wisdom with modern roller milling technology to deliver both authenticity and efficiency.
         </p>
       </header>
       <div className="mills-grid">
-        <article className="mill-card reveal">
-          <div className="mill-card-header chakki-header">
-            <Cog size={40} />
-            <h3>Chakki Mill</h3>
-          </div>
+        <article className="mill-card reveal" onClick={() => scrollTo('products')} style={{ cursor: 'pointer' }} role="button" tabIndex={0}>
+          <div className="mill-card-header chakki-header"><Cog size={40} /><h3>Chakki Mill</h3></div>
           <div className="mill-card-body">
             <p>Our Chakki Mill follows the traditional stone-grinding process, which retains the wheat's natural nutrients, fiber, aroma, and taste — producing softer and more nutritious atta ideal for everyday consumption.</p>
             <div className="mill-product-tag">→ Maa Bhog Chakki Atta</div>
           </div>
         </article>
-        <article className="mill-card reveal">
-          <div className="mill-card-header roller-header">
-            <Factory size={40} />
-            <h3>Roller Mill</h3>
-          </div>
+        <article className="mill-card reveal" onClick={() => scrollTo('products')} style={{ cursor: 'pointer' }} role="button" tabIndex={0}>
+          <div className="mill-card-header roller-header"><Factory size={40} /><h3>Roller Mill</h3></div>
           <div className="mill-card-body">
             <p>The Maa Durga Roller Flour Mill uses modern technology ensuring uniform grinding, high efficiency, and large-scale production — manufacturing Maida, Suji, Superfine Atta, Special Atta, and Wheat Bran.</p>
             <div className="mill-product-tag">→ Maa Brand Products</div>
@@ -399,35 +477,22 @@ function Established() {
   const statYears = useCounter(22, '+');
 
   return (
-    <section id="established" className="section established" aria-label="Company history">
+    <section id="established" className="section established" aria-label="Company history and heritage">
       <div className="established-grid">
         <div className="established-text reveal">
-          <div className="section-label">
-            <Award size={14} /> Established 23rd December 2003
-          </div>
-          <h2>
-            Two Decades of <br />
-            <span className="highlight">Trusted Quality</span>
-          </h2>
-          <p>
-            Founded on 23rd December 2003, Hojai Food Product Pvt. Ltd. has grown into one of the biggest food manufacturing companies in Assam. We procure select-quality wheat from Madhya Pradesh, Uttar Pradesh, and other prime regions through FCI government tenders — choosing only plump, golden-amber grains like Sharbati, Lokwan, and GW 322.
-          </p>
-          <p style={{ marginTop: '16px' }}>
-            With our Chakki Mill and Roller Mill (Maa Durga), a dedicated cold storage facility, and a robust distribution network, we deliver consistent quality across Northeast India. Our strong procurement system, strict quality control, and strategic sourcing have made us a leading and trusted name in the food industry.
-          </p>
+          <div className="section-label"><Award size={14} /> Established 23rd December 2003</div>
+          <h2>Two Decades of <br /><span className="highlight">Trusted Quality</span></h2>
+          <p>Founded on 23rd December 2003, Hojai Food Product Pvt. Ltd. has grown into one of the biggest food manufacturing companies in Assam. We procure select-quality wheat from Madhya Pradesh, Uttar Pradesh, and other prime regions through FCI government tenders — choosing only plump, golden-amber grains like Sharbati, Lokwan, and GW 322.</p>
+          <p style={{ marginTop: '16px' }}>With our Chakki Mill and Roller Mill (Maa Durga), a dedicated cold storage facility, and a robust distribution network, we deliver consistent quality across Northeast India. Our strong procurement system, strict quality control, and strategic sourcing have made us a leading and trusted name in the food industry.</p>
           <div className="established-stats">
-            <div className="established-stat">
-              <h3 ref={statYear.ref} className="counter">{statYear.display}</h3>
-              <p>Founded</p>
-            </div>
-            <div className="established-stat">
-              <h3 ref={statStates.ref} className="counter">{statStates.display}</h3>
-              <p>Source States</p>
-            </div>
-            <div className="established-stat">
-              <h3 ref={statYears.ref} className="counter">{statYears.display}</h3>
-              <p>Years</p>
-            </div>
+            {[
+              [statYear, 'Founded'], [statStates, 'Source States'], [statYears, 'Years'],
+            ].map(([stat, label], i) => (
+              <div className="established-stat" key={i}>
+                <h3 ref={stat.ref} className="counter">{stat.display}</h3>
+                <p>{label}</p>
+              </div>
+            ))}
           </div>
         </div>
         <div className="established-visual reveal">
@@ -435,6 +500,42 @@ function Established() {
             <div className="year">2003</div>
             <div className="label">EST. 23 DEC • Hojai, Assam</div>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Contact() {
+  return (
+    <section id="contact" className="section contact" aria-label="Contact information">
+      <header className="products-header">
+        <div className="section-label" style={{ margin: '0 auto 16px' }}><Mail size={14} /> Reach Out</div>
+        <h2 className="section-title">Get In Touch</h2>
+        <p className="section-subtitle" style={{ margin: '0 auto' }}>
+          Have questions about our products or interested in becoming a distributor? We'd love to hear from you.
+        </p>
+      </header>
+      <div className="contact-grid">
+        <a href="tel:+919999999999" className="contact-card reveal" id="contact-phone">
+          <Phone size={28} />
+          <h3>Call Us</h3>
+          <p>+91 99999 99999</p>
+        </a>
+        <a href="mailto:info@hojaifood.com" className="contact-card reveal" id="contact-email">
+          <Mail size={28} />
+          <h3>Email Us</h3>
+          <p>info@hojaifood.com</p>
+        </a>
+        <div className="contact-card reveal" id="contact-address">
+          <MapPin size={28} />
+          <h3>Visit Us</h3>
+          <p>Hojai, Assam, India</p>
+        </div>
+        <div className="contact-card reveal" id="contact-hours">
+          <Clock size={28} />
+          <h3>Working Hours</h3>
+          <p>Mon – Sat, 9 AM – 6 PM</p>
         </div>
       </div>
     </section>
@@ -449,10 +550,12 @@ function Footer() {
         <p className="footer-copy">© {new Date().getFullYear()} All rights reserved. Hojai, Assam, India.</p>
       </div>
       <ul className="footer-links">
-        <li><a href="#vision">Vision</a></li>
-        <li><a href="#products">Products</a></li>
-        <li><a href="#manufacturing">Manufacturing</a></li>
-        <li><a href="#established">About</a></li>
+        {[
+          ['vision', 'Vision'], ['products', 'Products'], ['manufacturing', 'Manufacturing'],
+          ['established', 'About'], ['faq', 'FAQ'], ['contact', 'Contact'],
+        ].map(([id, label]) => (
+          <li key={id}><a href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollTo(id); }}>{label}</a></li>
+        ))}
       </ul>
     </footer>
   );
@@ -463,6 +566,7 @@ function Footer() {
 —————————————————————————— */
 function App() {
   const mainRef = useRef();
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -504,10 +608,13 @@ function App() {
       <MarqueeBanner />
       <Vision />
       <WheatQuality />
-      <Products />
+      <Products onViewDetails={setSelectedProduct} />
       <Manufacturing />
       <Established />
+      <FaqSection />
+      <Contact />
       <Footer />
+      {selectedProduct && <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />}
     </main>
   );
 }
