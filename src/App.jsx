@@ -88,7 +88,7 @@ const rollerProducts = [
 ];
 
 const faqData = [
-  { q: 'What is Hojai Food Product Pvt. Ltd.?', a: 'Hojai Food Product Pvt. Ltd. is one of the biggest food manufacturing companies in Assam, established on 23rd December 2003. We specialize in producing premium wheat-based products including Maa Bhog Chakki Atta and Maa Brand roller mill products.' },
+  { q: 'What is Hojai Food Product Pvt. Ltd.?', a: 'Hojai Food Product Pvt. Ltd. is one of the biggest food manufacturing companies in Assam, established on 23rd December 2003. We specialize in producing premium wheat-based products including Maa Bhog Chakki Atta and Maa Brand roller flour mill products.' },
   { q: 'Where does the company source its wheat?', a: 'We procure premium quality wheat from major wheat-producing states such as Madhya Pradesh and Uttar Pradesh through official tenders from the Food Corporation of India (FCI). No farmers are involved in the direct purchasing process.' },
   { q: 'What wheat varieties does the company use?', a: 'We select top varieties including Sharbati, Lokwan, and GW 322 — known for plump, golden-amber grains with high hardness, superior protein content, and higher water absorption that produces softer rotis.' },
   { q: 'What products does the company manufacture?', a: 'Our flagship product is Maa Bhog Chakki Atta (traditional stone-ground). Through our Maa Durga Roller Flour Mill, we also produce Maida, Suji (Semolina), Superfine Atta, Special Atta, and Wheat Bran under the Maa Brand.' },
@@ -262,28 +262,73 @@ function FaqSection() {
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
+  const navItems = [
+    ['hero', 'Home'], ['vision', 'Vision'], ['products', 'Products'],
+    ['manufacturing', 'Manufacturing'], ['established', 'About'], ['faq', 'FAQ'], ['contact', 'Contact'],
+  ];
+
+  const handleNav = (id) => {
+    setMenuOpen(false);
+    setTimeout(() => scrollTo(id), 100);
+  };
+
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} role="navigation">
-      <a href="#hero" className="navbar-brand" aria-label="Hojai Food Product homepage" onClick={(e) => { e.preventDefault(); scrollTo('hero'); }}>
-        <Wheat size={24} />
-        Hojai Food Product Pvt. Ltd.
-      </a>
-      <ul className="navbar-links">
-        {[
-          ['hero', 'Home'], ['vision', 'Vision'], ['products', 'Products'],
-          ['manufacturing', 'Manufacturing'], ['established', 'About'], ['contact', 'Contact'],
-        ].map(([id, label]) => (
-          <li key={id}><a href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollTo(id); }}>{label}</a></li>
-        ))}
-      </ul>
-      <button className="navbar-cta" onClick={() => scrollTo('contact')} id="nav-contact-btn">Get In Touch</button>
-    </nav>
+    <>
+      <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} role="navigation">
+        <a href="#hero" className="navbar-brand" aria-label="Hojai Food Product homepage" onClick={(e) => { e.preventDefault(); handleNav('hero'); }}>
+          <Wheat size={24} />
+          Hojai Food Product Pvt. Ltd.
+        </a>
+        <ul className="navbar-links">
+          {navItems.map(([id, label]) => (
+            <li key={id}><a href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollTo(id); }}>{label}</a></li>
+          ))}
+        </ul>
+        <button className="navbar-cta desktop-only" onClick={() => scrollTo('contact')} id="nav-contact-btn">Get In Touch</button>
+        <button
+          className={`hamburger ${menuOpen ? 'active' : ''}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+        >
+          <span className="hamburger-line" />
+          <span className="hamburger-line" />
+          <span className="hamburger-line" />
+        </button>
+      </nav>
+
+      {/* Mobile Sidebar */}
+      <div className={`sidebar-overlay ${menuOpen ? 'open' : ''}`} onClick={() => setMenuOpen(false)} />
+      <aside className={`sidebar ${menuOpen ? 'open' : ''}`} role="dialog" aria-label="Mobile navigation">
+        <div className="sidebar-header">
+          <Wheat size={20} />
+          <span>Hojai Food Product</span>
+        </div>
+        <ul className="sidebar-links">
+          {navItems.map(([id, label]) => (
+            <li key={id}>
+              <a href={`#${id}`} onClick={(e) => { e.preventDefault(); handleNav(id); }}>{label}</a>
+            </li>
+          ))}
+        </ul>
+        <button className="btn-primary sidebar-cta" onClick={() => handleNav('contact')}>
+          Get In Touch <ArrowRight size={18} />
+        </button>
+      </aside>
+    </>
   );
 }
 
@@ -304,7 +349,7 @@ function Hero() {
           <span className="highlight">Milled to Perfection</span>
         </h1>
         <p className="hero-desc hero-anim">
-          Hojai Food Product Pvt. Ltd. procures premium wheat from Madhya Pradesh, Uttar Pradesh & more through FCI government tenders — milling it into the finest Maa Bhog Chakki Atta and Maa Brand roller mill products.
+          Hojai Food Product Pvt. Ltd. procures premium wheat from Madhya Pradesh, Uttar Pradesh & more through FCI government tenders — milling it into the finest Maa Bhog Chakki Atta and Maa Brand roller flour mill products.
         </p>
         <div className="hero-actions hero-anim">
           <button className="btn-primary" id="explore-products-btn" onClick={() => scrollTo('products')}>
