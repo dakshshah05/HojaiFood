@@ -11,6 +11,12 @@ import {
 } from 'lucide-react';
 import './App.css';
 
+/* Asset images */
+import attaImg from './assets/atta.jpeg';
+import sujiImg from './assets/suji.jpeg';
+import wheatImg from './assets/wheat.jpeg';
+import wheatBranImg from './assets/wheatBran.jpeg';
+
 gsap.registerPlugin(ScrollTrigger);
 
 /* ——————————————————————————
@@ -48,35 +54,35 @@ const rollerProducts = [
     title: 'Maida',
     desc: 'Finely refined wheat flour with smooth texture and excellent binding properties — perfect for bread, cakes, biscuits, and pastries.',
     longDesc: 'Maida is a finely milled and refined wheat flour produced at our Maa Durga Roller Flour Mill. It has a smooth, silky texture and excellent binding properties, making it ideal for bakery products such as bread, cakes, biscuits, pastries, and naan. Produced under strict quality control for purity and consistency.',
-    tag: 'Bakery Grade', icon: Layers,
+    tag: 'Bakery Grade', icon: Layers, image: wheatImg,
     features: ['Smooth, silky texture', 'Excellent binding properties', 'Ideal for bakery products', 'Strict quality control'],
   },
   {
     title: 'Suji (Semolina)',
     desc: 'Coarse wheat product valued for its granular texture — ideal for upma, halwa, pasta, and traditional Indian sweets.',
     longDesc: 'Suji (Semolina) is a coarse, granular wheat product manufactured at the Maa Durga Roller Flour Mill. It is widely used for preparing upma, halwa, idli, pasta, and traditional Indian sweets. Valued for its nutritional content, granular texture, and versatile culinary applications.',
-    tag: 'Versatile', icon: Sun,
+    tag: 'Versatile', icon: Sun, image: sujiImg,
     features: ['Granular texture', 'High nutritional value', 'Versatile cooking uses', 'Uniform grain size'],
   },
   {
     title: 'Superfine Atta',
     desc: 'Finely ground wheat flour with a smooth texture, ideal for making soft, high-quality rotis and chapatis every time.',
     longDesc: 'Superfine Atta is a finely ground wheat flour produced using advanced roller milling technology. Its smooth texture ensures soft, high-quality rotis and chapatis with every use. Manufactured under the Maa Brand with consistent quality standards.',
-    tag: 'Premium', icon: Star,
+    tag: 'Premium', icon: Star, image: attaImg,
     features: ['Extra fine grind', 'Smooth texture', 'Soft rotis guaranteed', 'Consistent quality'],
   },
   {
     title: 'Special Atta',
     desc: 'Premium-quality wheat flour specially processed to ensure better taste, softness, and enhanced nutritional value.',
     longDesc: 'Special Atta is a premium-quality wheat flour that undergoes specialized processing at our Maa Durga Roller Flour Mill. This extra processing ensures enhanced taste, superior softness, and better nutritional value compared to standard atta. It is the preferred choice for health-conscious consumers.',
-    tag: 'Special', icon: Gem,
+    tag: 'Special', icon: Gem, image: attaImg,
     features: ['Specialized processing', 'Enhanced nutrition', 'Superior softness', 'Premium wheat selection'],
   },
   {
     title: 'Wheat Bran',
     desc: 'The nutrient-rich outer layer of wheat grain, high in dietary fiber — used for animal feed and health-focused food products.',
     longDesc: 'Wheat Bran is the nutrient-rich outer layer of the wheat grain, separated during the milling process. It is exceptionally high in dietary fiber and is used both as animal feed and as an ingredient in health-focused food products. A valuable by-product of our precision milling process.',
-    tag: 'Fiber Rich', icon: Leaf,
+    tag: 'Fiber Rich', icon: Leaf, image: wheatBranImg,
     features: ['High dietary fiber', 'Animal feed grade', 'Health food ingredient', 'Natural by-product'],
   },
 ];
@@ -388,7 +394,13 @@ function ProductCard({ product, index, onViewDetails }) {
   return (
     <div className="tilt-card reveal" style={{ transitionDelay: `${index * 0.08}s` }}>
       <article className="product-card" ref={tilt.ref} onMouseMove={tilt.onMouseMove} onMouseLeave={tilt.onMouseLeave}>
-        <div className="product-card-img"><product.icon size={48} /></div>
+        <div className="product-card-img">
+          {product.image ? (
+            <img src={product.image} alt={product.title} loading="lazy" />
+          ) : (
+            <product.icon size={48} />
+          )}
+        </div>
         <div className="product-card-body">
           <h3>{product.title}</h3>
           <p>{product.desc}</p>
